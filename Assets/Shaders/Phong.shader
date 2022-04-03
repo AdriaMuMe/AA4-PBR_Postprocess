@@ -58,6 +58,14 @@
                 return o;
             }
 
+			float ourMax(float a, float b)
+			{
+				if (a >= b)
+					return a;
+				else
+					return b;
+			}
+
 			fixed4 _objectColor;
 			
 			float _ambientInt;//How strong it is?
@@ -107,7 +115,33 @@
 				
 				//blinnPhong
 				halfVec = normalize(viewVec + lightDir);
-				specularComp = lightColor * pow(max(dot(halfVec, i.worldNormal),0), _scecularExp);
+				//specularComp = lightColor * pow(max(dot(halfVec, i.worldNormal),0), _scecularExp);
+
+
+				//Ex 2. ------------- 
+				//Preguntes profe: ( BDRF preferencia profe?, mathf --> max, tres valors parametritzables?, 
+				//modificar valor tipus light Dir o ja estan b?, aquests métodes els apliquem a cada cas? )
+				float q = 0.2f; //Modificable
+				float alpha = 0.5f; //Modificable
+				float Pi = 3.14159265359f;
+
+				//Fresnel Schlick
+				float Fresnel = q + ((1 - q) * (1 - dot(halfVec, lightDir)));
+				
+				//Geometry Neumann
+				float max = ourMax((dot(i.worldNormal, lightDir), dot(i.worldNormal, viewVec)));
+				float Geometry = dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec) 
+					/ max);
+				
+				//Distribution GGX (Isotropic)
+				float Distribution = (alpha * alpha) / 
+					(Pi * pow(pow(dot(i.worldNormal, halfVec), 2) * (((alpha * alpha) - 1) + 1), 2) );
+
+				//Final steps:
+				float escalat = (4 * dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec);
+				specularComp = (Fresnel * Geometry * Distribution)/ escalat);
+				
+				//--------------------
 
 				//Sum
 				finalColor += clamp(float4(_directionalLightIntensity*(difuseComp+specularComp),1),0,1);
@@ -147,4 +181,7 @@
             ENDCG
         }
     }
+
 }
+
+
