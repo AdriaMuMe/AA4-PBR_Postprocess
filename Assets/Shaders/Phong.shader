@@ -17,6 +17,9 @@
 		_directionalLightColor("Directional light Color",Color) = (0,0,0,1)
 		_directionalLightIntensity("Directional light Intensity",Float) = 1
 
+		_alpha("Roughtness", Range(0,1)) = 0.5
+		_q("q coheficient", Range(0,1)) = 0.1
+
     }
     SubShader
     {
@@ -73,6 +76,9 @@
 			float4 _directionalLightColor;
 			float _directionalLightIntensity;
 
+			float _alpha;
+			float _q;
+
             fixed4 frag (v2f i) : SV_Target
             {
 				
@@ -113,25 +119,35 @@
 				//Ex 2. ------------- 
 				//Preguntes profe: ( tres valors parametritzables? --> tres tipus de materials, 
 				//aquests métodes els apliquem a cada cas? --> repetir )
-				float q = 0.1f; //Modificable
-				float alpha = 0.9f; //Modificable
 				float Pi = 3.14159265359f;
 
 				//Fresnel Schlick
-				float Fresnel = q + ((1 - q) * (1 - dot(halfVec, lightDir)));
+				float Fresnel = _q + ((1 - _q) * (1 - dot(halfVec, lightDir)));
 				
 				//Geometry Neumann
 				float maxP = max(dot(i.worldNormal, lightDir), dot(i.worldNormal, viewVec));
 				float Geometry = (dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec)) / maxP;
 				
-				//Distribution GGX (Isotropic) //les estandar no isotropiques
-				float Distribution = (alpha * alpha) / 
-					(Pi * pow(pow(dot(i.worldNormal, halfVec), 2) * (((alpha * alpha) - 1) + 1), 2) );
+				//Distribution GGX (Isotropic)
+				/*float Distribution = (alpha * alpha) /
+					(Pi * pow(pow(dot(i.worldNormal, halfVec), 2) * (((alpha * alpha) - 1) + 1), 2) );*/
+
+				//Distribution Beckmann
+				float dist1 = Pi * pow(_alpha, 2);
+				float dist2 = pow(dot(i.worldNormal, halfVec),4);
+				float dist3 = 1 - pow(dot(i.worldNormal, halfVec), 2);
+				float dist4 = pow(_alpha, 2) * pow(dot(i.worldNormal, halfVec), 2);
+			
+				float Distribution = (1 / dist1 * dist2) * exp(-(dist3) / (dist4));
 
 				//Final steps:
 				float escalat = (4 * dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec));
-				specularComp = (Fresnel * Geometry * Distribution)/ escalat;
+				specularComp = (Fresnel * Geometry * Distribution) / escalat;
 				
+				/*if (Fresnel > 5)
+					return float4 (1,0,0,1);
+				return specularComp.xyzx;
+				*/
 				//--------------------
 
 				//Sum
