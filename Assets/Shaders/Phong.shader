@@ -58,14 +58,6 @@
                 return o;
             }
 
-			float ourMax(float a, float b)
-			{
-				if (a >= b)
-					return a;
-				else
-					return b;
-			}
-
 			fixed4 _objectColor;
 			
 			float _ambientInt;//How strong it is?
@@ -119,27 +111,26 @@
 
 
 				//Ex 2. ------------- 
-				//Preguntes profe: ( BDRF preferencia profe?, mathf --> max, tres valors parametritzables?, 
-				//modificar valor tipus light Dir o ja estan b?, aquests métodes els apliquem a cada cas? )
-				float q = 0.2f; //Modificable
-				float alpha = 0.5f; //Modificable
+				//Preguntes profe: ( tres valors parametritzables? --> tres tipus de materials, 
+				//aquests métodes els apliquem a cada cas? --> repetir )
+				float q = 0.1f; //Modificable
+				float alpha = 0.9f; //Modificable
 				float Pi = 3.14159265359f;
 
 				//Fresnel Schlick
 				float Fresnel = q + ((1 - q) * (1 - dot(halfVec, lightDir)));
 				
 				//Geometry Neumann
-				float max = ourMax((dot(i.worldNormal, lightDir), dot(i.worldNormal, viewVec)));
-				float Geometry = dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec) 
-					/ max);
+				float maxP = max(dot(i.worldNormal, lightDir), dot(i.worldNormal, viewVec));
+				float Geometry = (dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec)) / maxP;
 				
-				//Distribution GGX (Isotropic)
+				//Distribution GGX (Isotropic) //les estandar no isotropiques
 				float Distribution = (alpha * alpha) / 
 					(Pi * pow(pow(dot(i.worldNormal, halfVec), 2) * (((alpha * alpha) - 1) + 1), 2) );
 
 				//Final steps:
-				float escalat = (4 * dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec);
-				specularComp = (Fresnel * Geometry * Distribution)/ escalat);
+				float escalat = (4 * dot(i.worldNormal, lightDir) * dot(i.worldNormal, viewVec));
+				specularComp = (Fresnel * Geometry * Distribution)/ escalat;
 				
 				//--------------------
 
