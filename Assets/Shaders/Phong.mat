@@ -72,10 +72,12 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _alpha: 0.5
     - _ambientInt: 0.248
     - _diffuseInt: 1
     - _directionalLightIntensity: 1
     - _pointLightIntensity: 1
+    - _q: 0.1
     - _scecularExp: 64
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
