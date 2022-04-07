@@ -9,6 +9,9 @@ Shader "Unlit/GausBlur"
 		{
 			// Horizontal blur pass
 			Tags {"Queue" = "Transparent" "IgnoreProjector" = "true" "RenderType" = "Transparent"}
+
+			GrabPass {"_GrabTexture"}
+
 			Pass
 			{
 				Blend SrcAlpha OneMinusSrcAlpha
@@ -39,7 +42,7 @@ Shader "Unlit/GausBlur"
 				{
 					v2f o;
 					o.vertex = UnityObjectToClipPos(v.vertex);
-					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+					o.uv = ComputeGrabScreenPos(o.vertex);
 					return o;
 				}
 
