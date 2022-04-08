@@ -132,7 +132,7 @@
 				//aquests métodes els apliquem a cada cas? --> repetir )
 
 				//Fresnel Schlick
-				Fresnel = _q + ((1 - _q) * (1 - dot(halfVec, lightDir)));
+				Fresnel = _q + (1 - _q) * pow(1 - dot(halfVec, lightDir),5);
 				
 				//Geometry Neumann
 				maxP = max(dot(i.worldNormal, lightDir), dot(i.worldNormal, viewVec));
