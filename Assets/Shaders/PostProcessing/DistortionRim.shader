@@ -14,7 +14,6 @@
 
 		GrabPass {"_GrabTexture"}
 
-
 		Pass {
 			Name "GrabDistort"
 			Cull Back
