@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
   - {fileID: 7970321919909963212}
+  - {fileID: 6071997143366412775}
 --- !u!114 &263417397049164868
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -287,6 +288,31 @@ MonoBehaviour:
   effectColor:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &6071997143366412775
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CustomPostproSettings
+  m_EditorClassIdentifier: Assembly-CSharp::CustomPostproSettings
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  blend:
+    overrideState: 1
+    value: 0.184
+  intensity:
+    overrideState: 1
+    value: 0.55
+  effectColor:
+    overrideState: 1
+    value: {r: 0.5566038, g: 0.107645065, b: 0.107645065, a: 1}
 --- !u!114 &6510596329767367381
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -340,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fef5befe74cb843b5c12be73d2a0d3, type: 3}
   m_Name: Blur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1

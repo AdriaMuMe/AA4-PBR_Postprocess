@@ -13,9 +13,10 @@ using UnityEngine.Rendering.PostProcessing;
                                     //Forth parameter that allows to decide if the effect should be shown in scene view
 public sealed class CustomPostproSettings : PostProcessEffectSettings
 {
-    [Range(0f, 1f), Tooltip("Effect Intensity.")]
+    [Range(0f, 1f), Tooltip("Effect Blending.")]
     public FloatParameter blend = new FloatParameter { value = 0.5f }; //Custom parameter class, full list at: /PostProcessing/Runtime/
-    public FloatParameter intensity = new FloatParameter { value = 0.5f };
+    [Range(-0.5f, 1f), Tooltip("Effect Intensity.")]
+    public FloatParameter intensity = new FloatParameter { value = 0f };
     public ColorParameter effectColor = new ColorParameter { value = Color.white };                                                                    //The default value is important, since is the one that will be used for blending if only 1 of volume has this effect
 }
 
