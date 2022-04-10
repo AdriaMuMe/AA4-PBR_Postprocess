@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Custom/InvertColors"
+﻿Shader "Hidden/Custom/CustomPostPro"
 {
 	HLSLINCLUDE
 	// StdLib.hlsl holds pre-configured vertex shaders (VertDefault), varying structs (VaryingsDefault), and most of the data you need to write common effects.

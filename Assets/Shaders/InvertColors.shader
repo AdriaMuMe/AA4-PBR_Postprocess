@@ -11,45 +11,52 @@
 
 	float4 Frag(VaryingsDefault i) : SV_Target
 	{
-		//init color variable
-		float4 col = 0;
-		float sum = _samples;
+		float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
-		//Y
-		for (float index = 0; index < _samples; index++) {
-			//get the offset of the sample
-			float offset = (index / (_samples - 1) - 0.5) * _blurAmount;
-			//get uv coordinate of sample
-			float2 uv = i.texcoord + float2(0, offset);
-			col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
+		for (int j = 0; j < _samples; j++)
+		{
+			float offset = (j / (_samples - 1) - 0.5) * _blurAmount;
+			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(0, offset)));
+			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(offset, 0)));
 		}
-		
-		col = col / sum;
-
-		//X
-		for (float index2 = 0; index2 < _samples; index2++) {
-			//get the offset of the sample
-			float offset = (index / (_samples - 1) - 0.5) * _blurAmount;
-			//get uv coordinate of sample
-			float2 uv = i.texcoord + float2(0, offset);
-			col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
-		}
-
-		//divide the sum of values by the amount of _samples
-		col = col / sum;
-		return col;
+		color = color  / (_samples*2);
+		return color;
 	}
+/*
+	float4 Frag2(VaryingsDefault i) : SV_Target
+	{
+		float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
+
+		for (int k = 0; k < _samples; k++)
+		{
+			float offset = (k / (_samples - 1) - 0.5) * _blurAmount;
+			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(offset, 0)));
+		}
+		color = color / _samples;
+		return color;
+	}
+*/
+
 		ENDHLSL
 
 		SubShader
 	{
 		Cull Off ZWrite Off ZTest Always
-			Pass
+		Pass
 		{
 			HLSLPROGRAM
 				#pragma vertex VertDefault
 				#pragma fragment Frag
 			ENDHLSL
 		}
+			/*
+		Pass
+		{
+			HLSLPROGRAM
+				#pragma vertex VertDefault
+				#pragma fragment Frag2
+			ENDHLSL
+		}
+			*/
 	}
 }

@@ -6,6 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 [PostProcess(typeof(GrayscaleRenderer), PostProcessEvent.AfterStack, "Custom/InvertColors")]
 public sealed class Grayscale : PostProcessEffectSettings
 {
+    [Range(0.01f, 1f)]
     public FloatParameter _blurAmout = new FloatParameter { value = 0.02f };
     public FloatParameter _samples = new FloatParameter { value = 50 };
     //int _samples;
