@@ -1,4 +1,4 @@
-Shader "Hidden/Unlit/Blood"
+Shader "Hidden/Unlit/CromaticEffect"
 {
     HLSLINCLUDE
 

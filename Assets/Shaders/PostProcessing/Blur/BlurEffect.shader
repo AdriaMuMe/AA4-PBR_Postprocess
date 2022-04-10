@@ -15,27 +15,13 @@
 
 		for (int j = 0; j < _samples; j++)
 		{
-			float offset = (j / (_samples - 1) - 0.5) * _blurAmount;
+			float offset = (j/(_samples - 1) - 0.5) * _blurAmount;
 			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(0, offset)));
 			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(offset, 0)));
 		}
-		color = color  / (_samples*2);
+		color = color/(_samples*2);
 		return color;
 	}
-/*
-	float4 Frag2(VaryingsDefault i) : SV_Target
-	{
-		float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-
-		for (int k = 0; k < _samples; k++)
-		{
-			float offset = (k / (_samples - 1) - 0.5) * _blurAmount;
-			color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, (i.texcoord + float2(offset, 0)));
-		}
-		color = color / _samples;
-		return color;
-	}
-*/
 
 		ENDHLSL
 
@@ -49,14 +35,5 @@
 				#pragma fragment Frag
 			ENDHLSL
 		}
-			/*
-		Pass
-		{
-			HLSLPROGRAM
-				#pragma vertex VertDefault
-				#pragma fragment Frag2
-			ENDHLSL
-		}
-			*/
 	}
 }
